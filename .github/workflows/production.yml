@@ -14,8 +14,9 @@ jobs:
         with:
           script: |
             console.log(context)
-            const status = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
-            console.log(status)
+            const pulls = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
+            const pr = pulls.data.find( ({state}) => state === 'open')
+            console.log(pr.number)
       - name: The deployment step
         shell: bash
         run: |
