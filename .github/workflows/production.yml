@@ -4,15 +4,15 @@ on:
   deployment:
 
 jobs:
-  something:
-    name: Do something
+  production_deploy:
+    name: Production deployment
     runs-on: ubuntu-20.04
     steps:
-      - name: Thing thing
+      - name: The deployment step
         shell: bash
         run: |
           echo "SUFFIX=pr-${{ github.event.number }}" >> $GITHUB_ENV
-      - name: Check labels
+      - name: Set status to deployed
         uses: actions/github-script@v4
         with:
           # https://github.com/actions/github-script
@@ -21,9 +21,5 @@ jobs:
           # gh api repos/Sybrand/playing_with_actions/deployments -f ref="some_change"
           script: |
             console.log(context.payload)
-            //const deployments = (await github.repos.listDeployments({owner: context.repo.owner, repo: context.repo.repo})).data
-            //console.log(deployments)
-            //const deployment = deployments.find( ({ref}) => ref === context.ref)
-            //console.log(deployment)
             const status = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.payload.deployment.id, state: 'success'}))
             console.log(status)
