@@ -19,5 +19,7 @@ jobs:
           # https://octokit.github.io/rest.js/v18#repos-create-deployment-status
           script: |
             const deployments = (await github.repos.listDeployments({owner: context.repo.owner, repo: context.repo.repo})).data
-
+            console.log(deployments)
+            const deployment = deployments.find( ({ref}) => ref === context.ref)
+            console.log(deployment)
             //const thing = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.)
