@@ -25,4 +25,5 @@ jobs:
             //console.log(deployments)
             //const deployment = deployments.find( ({ref}) => ref === context.ref)
             //console.log(deployment)
-            const thing = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.deployment.id, state: 'success')
+            const status = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.deployment.id, state: 'success'}))
+            console.log(status)
