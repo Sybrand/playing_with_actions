@@ -1,5 +1,6 @@
-name: Prodution
-
+name: Production
+# reference used to figure this part out:
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#deployment
 on:
   deployment:
 
@@ -8,6 +9,11 @@ jobs:
     name: Production deployment
     runs-on: ubuntu-20.04
     steps:
+      - name: Find PR number
+        uses: actions/github-script@v4
+        with:
+          script: |
+            console.log(context)
       - name: The deployment step
         shell: bash
         run: |
@@ -15,6 +21,8 @@ jobs:
       - name: Set status to deployed
         uses: actions/github-script@v4
         with:
+          # reference used to figure this part out:
+          # https://docs.github.com/en/rest/reference/repos#deployments
           # https://github.com/actions/github-script
           # https://octokit.github.io/rest.js/v18#repos-create-deployment-status
           # create this deployment:
