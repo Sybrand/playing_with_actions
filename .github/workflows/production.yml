@@ -14,6 +14,7 @@ jobs:
         with:
           script: |
             console.log(context)
+            const status = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
       - name: The deployment step
         shell: bash
         run: |
