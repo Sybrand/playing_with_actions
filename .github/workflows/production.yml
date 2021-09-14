@@ -12,3 +12,12 @@ jobs:
         shell: bash
         run: |
           echo "SUFFIX=pr-${{ github.event.number }}" >> $GITHUB_ENV
+      - name: Check labels
+        uses: actions/github-script@v4
+        with:
+          # https://github.com/actions/github-script
+          # https://octokit.github.io/rest.js/v18#repos-create-deployment-status
+          script: |
+            const deployments = (await github.repos.listDeployments({owner: context.repo.owner, repo: context.repo.repo})).data
+
+            //const thing = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.)
