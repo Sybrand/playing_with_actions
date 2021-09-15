@@ -18,4 +18,6 @@ jobs:
           # https://octokit.github.io/rest.js/v18#pulls
           # https://github.com/actions/github-script
           script: |
+            const pr = github.pulls.get({owner: context.repo.owner, repo: context.repo.repo, pull_number: 3})
+            console.log(pr)
             github.pulls.update({owner: context.repo.owner, repo: context.repo.repo, pull_number: 3, body: 'Ha! Take that!'})
