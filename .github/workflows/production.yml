@@ -37,16 +37,16 @@ jobs:
         run: |
           echo "$SUFFIX"
           echo "$GITHUB_EVENT_PATH"
-      - name: Set status to deployed
-        uses: actions/github-script@v4
-        with:
-          # reference used to figure this part out:
-          # https://docs.github.com/en/rest/reference/repos#deployments
-          # https://github.com/actions/github-script
-          # https://octokit.github.io/rest.js/v18#repos-create-deployment-status
-          # create this deployment:
-          # gh api repos/Sybrand/playing_with_actions/deployments -f ref="some_change"
-          script: |
-            console.log(context.payload)
-            const status = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.payload.deployment.id, state: 'success'}))
-            console.log(status)
+      # - name: Set status to deployed
+      #   uses: actions/github-script@v4
+      #   with:
+      #     # reference used to figure this part out:
+      #     # https://docs.github.com/en/rest/reference/repos#deployments
+      #     # https://github.com/actions/github-script
+      #     # https://octokit.github.io/rest.js/v18#repos-create-deployment-status
+      #     # create this deployment:
+      #     # gh api repos/Sybrand/playing_with_actions/deployments -f ref="some_change"
+      #     script: |
+      #       console.log(context.payload)
+      #       const status = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.payload.deployment.id, state: 'success'}))
+      #       console.log(status)
