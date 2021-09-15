@@ -23,4 +23,6 @@ jobs:
             const prNum = ev.pull_request.number;
             const pr = (await github.pulls.get({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum}))
             console.log(pr)
-            github.pulls.update({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum, body: 'Ha! Take that!'})
+            if (data.body === null) {
+              github.pulls.update({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum, body: `Ha! Take that! ${prNum}`})
+            }
