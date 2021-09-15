@@ -19,14 +19,15 @@ jobs:
           script: |
             // get pull requests relating to this commit hash
             const pulls = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
+            console.log(pulls)
             // find an open PR (potentially problematic if you have multiple PR's open!)
             const pr = pulls.data.find( ({state}) => state === 'open')
-            console.log(pr.number)
             core.exportVariable('SUFFIX', `pr-${pr.number}`);
       - name: The deployment step
         shell: bash
         run: |
           echo "$SUFFIX"
+          echo "$GITHUB_EVENT_PATH"
       - name: Set status to deployed
         uses: actions/github-script@v4
         with:
