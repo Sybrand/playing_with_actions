@@ -17,6 +17,7 @@ jobs:
           # https://octokit.github.io/rest.js/v18#pulls
           # https://github.com/actions/github-script
           script: |
+            console.log(context)
             // get pull requests relating to this commit hash
             const pulls = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
             console.log(pulls)
