@@ -1,8 +1,7 @@
 name: Production
 # reference used to figure this part out:
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#deployment
-on:
-  deployment:
+on: deployment
 
 jobs:
   production_deploy:
