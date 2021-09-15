@@ -18,7 +18,7 @@ jobs:
           # https://github.com/actions/github-script
           script: |
             console.log('1')
-            const fs = require("fs")
+            const fs = __original_require__("fs")
             console.log('2')
             # const script = require('./thing.js')
             # script()
