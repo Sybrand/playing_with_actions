@@ -22,16 +22,16 @@ jobs:
             //console.log(process.env.GITHUB_EVENT_PATH)
             const ev = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"))
             console.log(ev)
-            const prNum = ev.pull_request.number
-            console.log(prNum)
-            console.log(`pr-${prNum}`)
+            //const prNum = ev.pull_request.number
+            //console.log(prNum)
+            //console.log(`pr-${prNum}`)
             //console.log(context)
             // get pull requests relating to this commit hash
             //const pulls = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
             //console.log(pulls)
             // find an open PR (potentially problematic if you have multiple PR's open!)
             // const pr = pulls.data.find( ({state}) => state === 'open')
-            core.exportVariable('SUFFIX', `pr-${pr.number}`);
+            //core.exportVariable('SUFFIX', `pr-${pr.number}`);
       - name: The deployment step
         shell: bash
         run: |
