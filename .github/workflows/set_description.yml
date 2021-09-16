@@ -1,0 +1,28 @@
+name: Deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  set-comment:
+    name: Prepare Dev Database
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set description
+        uses: actions/github-script@v4
+        with:
+          # reference used to figure out this part:
+          # https://docs.github.com/en/rest/reference/pulls#list-pull-requests
+          # https://octokit.github.io/rest.js/v18#pulls
+          # https://github.com/actions/github-script
+          script: |
+            console.log(context)
+            console.log(context.payload.pull_request)
+            const prNum = context.payload.pull_request.number;
+            const pr = (await github.pulls.get({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum}))
+            console.log(pr)
+            if (pr.data.body === null) {
+              github.pulls.update({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum, body: `Ha! Take that! ${prNum}`})
+            }

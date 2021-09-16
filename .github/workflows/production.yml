@@ -1,29 +1,43 @@
-name: Prodution
-
+name: Production
+# reference used to figure this part out:
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#deployment
 on:
   deployment:
 
 jobs:
-  something:
-    name: Do something
+  production_deploy:
+    name: Production deployment
     runs-on: ubuntu-20.04
     steps:
-      - name: Thing thing
-        shell: bash
-        run: |
-          echo "SUFFIX=pr-${{ github.event.number }}" >> $GITHUB_ENV
-      - name: Check labels
+      - name: Find PR number
         uses: actions/github-script@v4
         with:
+          # reference used to figure out this part:
+          # https://docs.github.com/en/rest/reference/pulls#list-pull-requests
+          # https://octokit.github.io/rest.js/v18#pulls
+          # https://github.com/actions/github-script
+          script: |
+            // get pull requests relating to this commit hash
+            const pulls = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
+            console.log(pulls)
+            // find an open PR (potentially problematic if you have multiple PR's open!)
+            const pr = pulls.data.find( ({state}) => state === 'open')
+            core.exportVariable('SUFFIX', `pr-${pr.number}`);
+      - name: The deployment step
+        shell: bash
+        run: |
+          echo "$SUFFIX"
+          echo "$GITHUB_EVENT_PATH"
+      - name: Set status to deployed
+        uses: actions/github-script@v4
+        with:
+          # reference used to figure this part out:
+          # https://docs.github.com/en/rest/reference/repos#deployments
           # https://github.com/actions/github-script
           # https://octokit.github.io/rest.js/v18#repos-create-deployment-status
           # create this deployment:
           # gh api repos/Sybrand/playing_with_actions/deployments -f ref="some_change"
           script: |
             console.log(context.payload)
-            //const deployments = (await github.repos.listDeployments({owner: context.repo.owner, repo: context.repo.repo})).data
-            //console.log(deployments)
-            //const deployment = deployments.find( ({ref}) => ref === context.ref)
-            //console.log(deployment)
             const status = (await github.repos.createDeploymentStatus({owner: context.repo.owner, repo: context.repo.repo, deployment_id: context.payload.deployment.id, state: 'success'}))
             console.log(status)
