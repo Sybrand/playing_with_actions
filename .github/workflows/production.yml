@@ -16,22 +16,21 @@ jobs:
           # https://octokit.github.io/rest.js/v18#pulls
           # https://github.com/actions/github-script
           script: |
-            console.log('1')
             const fs = require("fs")
-            console.log('2')
             // const script = require('./thing.js')
             // script()
             //console.log(process.env.GITHUB_EVENT_PATH)
             const ev = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"))
-            console(ev)
-            console.log('3')
-            //const prNum = ev.pull_request.number
+            console.log(ev)
+            const prNum = ev.pull_request.number
+            console.log(prNum)
+            console.log(`pr-${prNum}`)
             //console.log(context)
             // get pull requests relating to this commit hash
-            const pulls = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
-            console.log(pulls)
+            //const pulls = (await github.repos.listPullRequestsAssociatedWithCommit({owner: context.repo.owner, repo: context.repo.repo, commit_sha: context.sha }))
+            //console.log(pulls)
             // find an open PR (potentially problematic if you have multiple PR's open!)
-            const pr = pulls.data.find( ({state}) => state === 'open')
+            // const pr = pulls.data.find( ({state}) => state === 'open')
             core.exportVariable('SUFFIX', `pr-${pr.number}`);
       - name: The deployment step
         shell: bash
