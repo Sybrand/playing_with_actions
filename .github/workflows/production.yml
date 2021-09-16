@@ -23,6 +23,7 @@ jobs:
             // script()
             //console.log(process.env.GITHUB_EVENT_PATH)
             const ev = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"))
+            console(ev)
             console.log('3')
             //const prNum = ev.pull_request.number
             //console.log(context)
