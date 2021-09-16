@@ -19,9 +19,10 @@ jobs:
           # https://github.com/actions/github-script
           script: |
             console.log(context)
-            const prNum = context.pull_request.number;
-            const pr = (await github.pulls.get({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum}))
-            console.log(pr)
-            if (pr.data.body === null) {
-              github.pulls.update({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum, body: `Ha! Take that! ${prNum}`})
-            }
+            console.log(context.pull_request)
+            //const prNum = context.pull_request.number;
+            //const pr = (await github.pulls.get({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum}))
+            //console.log(pr)
+            //if (pr.data.body === null) {
+            //  github.pulls.update({owner: context.repo.owner, repo: context.repo.repo, pull_number: prNum, body: `Ha! Take that! ${prNum}`})
+            //}
